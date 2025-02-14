@@ -6,7 +6,7 @@ app.use(express.json());
 
 const VERIFY_TOKEN = "1234"; // رمز التحقق الخاص بالويب هوك
 const PAGE_ACCESS_TOKEN = "IGAAYit7v3JuBBZAE84U0tVU3NnLUpVbjh5Rng4QWFTY2FrcmpjSmFyampkOTJoT2M2b3FKQ3JXTFZAvd0QxaDZADbmRyWUk1azhYSDFzTlFub2Y2S2h0cktvZA0hWR283R2NRcFhGLUNJLXdmSEJjUVFyQmVNYUgtY0w0THdPOWVKcwZDZD"; // التوكن الخاص بـ Instagram API
-const OPENAI_API_KEY = "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"; // مفتاح OpenAI API
+const OPENAI_API_KEY = "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"; // مفتاح OpenAI API
 
 // تحقق من Webhook عند الربط
 app.get("/webhook", (req, res) => {
