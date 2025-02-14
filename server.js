@@ -5,9 +5,9 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-const VERIFY_TOKEN = process.env.VERIFY_TOKEN;
-const PAGE_ACCESS_TOKEN = process.env.PAGE_ACCESS_TOKEN;
-const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
+const VERIFY_TOKEN = 1234
+const PAGE_ACCESS_TOKEN = ‏EAAJAmcUtD8MBO7l7xbmD1gPqkq2gdTTVLRCAQFyLZCBEloBiBZAo7Hmnrszv5dSj0tzFNw5TiwvCO6gmuwpMLdToyZCCk3EZCZARGZAJhI5FBCytwL4S2PoNljDZCXXfDZCsDZBsRRgCNeZBfkVQm5HLmgPXHXXZBthIgJZB7WOQenq7nPFRQ5Lv2uAOWHQnjCdviUgl77aY0UwSnLrLfDrauQZDZD
+const OPENAI_API_KEY = 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
 // تحقق من Webhook عند الربط
 app.get("/webhook", (req, res) => {
     let mode = req.query["hub.mode"];
