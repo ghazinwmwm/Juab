@@ -6,7 +6,7 @@ const app = express();
 app.use(express.json());
 
 const VERIFY_TOKEN = 1234
-const PAGE_ACCESS_TOKEN = ‏"EAAJAmcUtD8MBO7l7xbmD1gPqkq2gdTTVLRCAQFyLZCBEloBiBZAo7Hmnrszv5dSj0tzFNw5TiwvCO6gmuwpMLdToyZCCk3EZCZARGZAJhI5FBCytwL4S2PoNljDZCXXfDZCsDZBsRRgCNeZBfkVQm5HLmgPXHXXZBthIgJZB7WOQenq7nPFRQ5Lv2uAOWHQnjCdviUgl77aY0UwSnLrLfDrauQZDZD";
+const PAGE_ACCESS_TOKEN = ‏"IGAAYit7v3JuBBZAE84U0tVU3NnLUpVbjh5Rng4QWFTY2FrcmpjSmFyampkOTJoT2M2b3FKQ3JXTFZAvd0QxaDZADbmRyWUk1azhYSDFzTlFub2Y2S2h0cktvZA0hWR283R2NRcFhGLUNJLXdmSEJjUVFyQmVNYUgtY0w0THdPOWVKcwZDZD";
 const OPENAI_API_KEY = "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";
 // تحقق من Webhook عند الربط
 app.get("/webhook", (req, res) => {
