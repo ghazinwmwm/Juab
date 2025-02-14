@@ -4,7 +4,7 @@ const axios = require("axios");
 const app = express();
 app.use(express.json());
 
-const VERIFY_TOKEN = "your_verify_token"; // رمز التحقق الخاص بالويب هوك
+const VERIFY_TOKEN = "1234"; // رمز التحقق الخاص بالويب هوك
 const PAGE_ACCESS_TOKEN = "your_page_access_token"; // التوكن الخاص بـ Instagram API
 const OPENAI_API_KEY = "your_openai_api_key"; // مفتاح OpenAI API
 
