@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حاسبة الربح - إنستغرام بزنس</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>حاسبة الربح لمشاريع إنستغرام</h2>
+        
+        <div class="instructions">
+            <ul>
+                <li>أدخل جميع المبالغ بالألف دينار دون إضافة أصفار إضافية.</li>
+                <li>اكتب الرقم فقط عند إدخال المبلغ.</li>
+                <li>إذا كان لديك 5000 دينار، اكتب 5 فقط.</li>
+                <li>الحساب سيتم تلقائيًا بناءً على القيم المدخلة.</li>
+            </ul>
+        </div>
+
+        <label>رأس المال المتوفر:</label>
+        <input type="number" id="capital" placeholder="أدخل المبلغ">
+        <small>المبلغ الذي تملكه للاستثمار في المشروع.</small>
+        
+        <label>تكلفة شراء المنتج الواحد:</label>
+        <input type="number" id="cost_per_unit" placeholder="أدخل المبلغ">
+        <small>كم يكلفك شراء كل قطعة من المنتج؟</small>
+
+        <label>سعر بيع المنتج:</label>
+        <input type="number" id="sell_price" placeholder="أدخل المبلغ">
+        <small>السعر الذي تبيع به المنتج للزبون.</small>
+
+        <label>عدد القطع المتوقع بيعها شهريًا:</label>
+        <input type="number" id="units_sold" placeholder="أدخل العدد">
+        <small>كم قطعة تتوقع بيعها خلال الشهر؟</small>
+
+        <label>تكلفة التسويق والإعلانات:</label>
+        <input type="number" id="marketing_costs" placeholder="أدخل المبلغ">
+        <small>المبلغ الذي تصرفه على الإعلانات والترويج.</small>
+
+        <label>مصاريف التشغيل:</label>
+        <input type="number" id="operation_costs" placeholder="أدخل المبلغ">
+        <small>أي تكاليف إضافية مثل التوصيل، التغليف والخدمات.</small>
+        
+        <button onclick="calculateProfit()">احسب الربح</button>
+        <button onclick="suggestPrice()" class="secondary-button">اقترح سعر جديد</button>
+
+        <div class="result" id="profit_result"></div>
+        <div class="suggestion" id="business_suggestion"></div>
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
