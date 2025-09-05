@@ -1,32 +1,328 @@
 <!DOCTYPE html>
-<html lang="ar">
+<html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة الربح - الصفحة الرئيسية</title>
-    <link rel="stylesheet" href="styles.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>تأثير الكشف السلس - النص يختفي قبل التبديل</title>
+    <style>
+        /* لوحة ألوان خضراء موحّدة */
+        :root {
+            --bg:#000; 
+            --fg:#e9eef1;
+
+            /* درجات خضراء للثيم */
+            --green-50:#e9fff3;
+            --green-100:#d6f9e5;
+            --green-200:#baf3d5;
+            --green-300:#9be7c7;
+            --green-400:#72d7af;
+            --green-500:#43c58f;
+            --green-600:#29b37a;
+            --green-700:#1f8e61;
+            --green-800:#176e4c;
+            --green-900:#0f3d2e;
+
+            /* ظلال وشفافية */
+            --overlay: rgba(0,0,0,.7);
+        }
+
+        * { box-sizing: border-box; }
+        html, body { height: 100%; }
+        body {
+            margin: 0; background: var(--bg); color: var(--fg);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic UI", Tahoma, sans-serif;
+            overscroll-behavior-y: contain;
+            line-height: 1.6;
+        }
+
+        #hero {
+            position: fixed; 
+            inset: 0; 
+            display: grid; 
+            place-items: center;
+            pointer-events: none;
+            z-index: 10;
+        }
+
+        #heroText{
+            --p: 0;
+            --feather: 25vw;     
+            font-size: clamp(28px, 9vw, 110px);
+            line-height: 1.2; 
+            text-align: center; 
+            padding: 0 6vw;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.5);
+
+            opacity: var(--p);
+
+            --cut: calc(100% - (var(--p) * 100%));
+            -webkit-mask-image: linear-gradient(
+                to right,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(var(--cut) - var(--feather)),
+                rgba(0,0,0,1) var(--cut),
+                rgba(0,0,0,1) 100%
+            );
+            mask-image: linear-gradient(
+                to right,
+                rgba(0,0,0,0) 0%,
+                rgba(0,0,0,0) calc(var(--cut) - var(--feather)),
+                rgba(0,0,0,1) var(--cut),
+                rgba(0,0,0,1) 100%
+            );
+
+            transition: opacity 0.8s ease, -webkit-mask-image 0.8s ease, mask-image 0.8s ease;
+        }
+
+        main { position: relative; }
+        .step {
+            height: 100vh; 
+            display:flex; 
+            align-items:center; 
+            justify-content:center;
+            color: transparent; 
+            user-select: none;
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #cfd6db;
+            font-size: 16px;
+            z-index: 100;
+            background: var(--overlay);
+            padding: 8px 15px;
+            border-radius: 20px;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0) translateX(-50%);}
+            40% {transform: translateY(-10px) translateX(-50%);}
+            60% {transform: translateY(-5px) translateX(-50%);}
+        }
+
+        /* الصفحة الثانية (السماء) — استبدال اللافندر بتدرّج أخضر */
+        .sky-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(to bottom, var(--green-100) 0%, var(--green-300) 40%, var(--green-600) 100%);
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .yaqeen-text {
+            font-size: clamp(3rem, 15vw, 10rem);
+            font-weight: bold;
+            color: var(--green-900);
+            text-shadow: 0 2px 8px rgba(0,0,0,.15);
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Noto Naskh Arabic UI", Tahoma, sans-serif;
+            z-index: 2;
+            padding: 0 6vw;
+            text-align: center;
+        }
+
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+
+        @keyframes twinkle {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .shooting-star {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 50%, rgba(255, 255, 255, 0) 100%);
+            animation: shoot linear infinite;
+        }
+
+        @keyframes shoot {
+            0% { 
+                transform: translateX(-100%) translateY(-100%) rotate(45deg);
+                opacity: 0;
+            }
+            20% { opacity: 1; }
+            100% { 
+                transform: translateX(100vw) translateY(100vh) rotate(45deg);
+                opacity: 0;
+            }
+        }
+
+        /* الصفحة الثالثة — موحّدة مع الثيم الأخضر */
+        .third-page {
+            background: linear-gradient(to bottom, var(--green-700) 0%, var(--green-800) 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .third-page-content {
+            max-width: 800px;
+            color: white;
+        }
+
+        .third-page h2 {
+            font-size: clamp(2rem, 8vw, 4rem);
+            margin-bottom: 30px;
+            color: #fff;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .third-page p {
+            font-size: clamp(1.2rem, 4vw, 1.8rem);
+            line-height: 1.6;
+            color: var(--green-50);
+        }
+
+        /* تحسين تباين النص العائم مع الثيم */
+        #heroText::selection { background: var(--green-500); color:#08120d; }
+    </style>
 </head>
 <body>
+    <div class="scroll-indicator">انزل جوة ▼</div>
+    <div id="hero"><div id="heroText" aria-live="polite"></div></div>
 
-    <div class="container">
-        <h1>مرحبًا بك في حاسبة الربح لمشاريع إنستغرام</h1>
-        <p class="intro-text">
-            هل لديك مشروع على إنستغرام وترغب في معرفة أرباحك الحقيقية؟  
-            هذه الأداة تساعدك في حساب التكاليف، الأرباح، والمصاريف بسهولة،  
-            حتى تتمكن من تحسين تسعير منتجاتك واتخاذ قرارات مالية صحيحة.
-        </p>
+    <main id="steps">
+        <section class="step" data-word="شنو مشاكلك كصاحب مشروع؟"></section>
+        <section class="step" data-word="رسائل هواي تجيك"></section>
+        <section class="step" data-word="طلباتك ضايعة"></section>
+        <section class="step" data-word="مخزنك ما تعرف شبي"></section>
+        <section class="step" data-word="لكينا الك الحل المناسب"></section>
+        
+        <!-- الصفحة الثانية (سماوية بخضر) -->
+        <section class="step" data-word="">
+            <div class="sky-container">
+                <div class="yaqeen-text">منصة سهل - المنصة الرائدة في التجارة الالكترونية في العراق</div>
+                <!-- النجوم والشهب سيتم إنشاؤها بواسطة JavaScript -->
+            </div>
+        </section>
+        
+        <!-- الصفحة الثالثة -->
+        <section class="step third-page" data-word="">
+            <div class="third-page-content">
+                <h2>شنو هو سهل ؟</h2>
+                <p>منصة تمكنك من انشاء متجر الكتروني خاص بيك بدون برمجة!</p>
+            </div>
+        </section>
+    </main>
 
-        <h2>لماذا تستخدم هذه الأداة؟</h2>
-        <ul class="features">
-            <li>حساب الأرباح والخسائر بناءً على بيانات حقيقية.</li>
-            <li>اقتراح سعر بيع مناسب في حالة الربح القليل.</li>
-            <li>تحليل تكلفة الإعلانات والتشغيل لمعرفة التأثير على الربح.</li>
-            <li>سهولة الإدخال والحساب التلقائي بدون تعقيد.</li>
-        </ul>
+<script>
+(() => {
+    const steps  = Array.from(document.querySelectorAll('.step'));
+    const target = document.getElementById('heroText');
+    const scrollIndicator = document.querySelector('.scroll-indicator');
 
-        <div style="text-align: center; margin-top: 20px;">
-    <a href="calculator.html" class="cta-button">ابدأ الآن</a>
-</div>
+    let isTextHidden = false;
+    let textTransitionTimer = null;
+    
+    const progressInViewport = (el) => {
+        const r  = el.getBoundingClientRect();
+        const vh = window.innerHeight;
+        const centerEl = r.top + r.height/2;
+        const centerVp = vh / 2;
+        const d = Math.abs(centerEl - centerVp);
+        const radius = vh * 0.7;
+        let p = 1 - d / radius;
+        return Math.max(0, Math.min(1, p));
+    };
 
+    const easedProgress = (p) => {
+        const start = 0.1, end = 0.9;
+        if (p <= start) return 0;
+        if (p >= end)   return 1;
+        const t = (p - start) / (end - start);
+        return t < .5 ? 2*t*t : 1 - Math.pow(-2*t+2, 2)/2;
+    };
+
+    if (steps.length) target.textContent = steps[0].dataset.word || "";
+    let active = steps[0];
+
+    const update = () => {
+        let best = active, bestRaw = -1;
+        for (const s of steps) {
+            const p = progressInViewport(s);
+            if (p > bestRaw) { bestRaw = p; best = s; }
+        }
+        
+        if (best !== active && !isTextHidden) {
+            target.style.setProperty('--p', 0);
+            isTextHidden = true;
+            
+            if (textTransitionTimer) clearTimeout(textTransitionTimer);
+            textTransitionTimer = setTimeout(() => {
+                active = best;
+                target.textContent = active.dataset.word || "";
+                target.style.setProperty('--p', easedProgress(bestRaw).toFixed(4));
+                isTextHidden = false;
+            }, 800);
+        } 
+        else if (!isTextHidden) {
+            target.style.setProperty('--p', easedProgress(bestRaw).toFixed(4));
+        }
+        
+        if (window.scrollY > 100) {
+            scrollIndicator.style.opacity = '0';
+        } else {
+            scrollIndicator.style.opacity = '1';
+        }
+    };
+
+    // إنشاء النجوم والشهب
+    function createStars() {
+        const skyContainer = document.querySelector('.sky-container');
+        if (!skyContainer) return;
+        
+        // نجوم
+        for (let i = 0; i < 200; i++) {
+            const star = document.createElement('div');
+            star.classList.add('star');
+            const size = Math.random() * 2 + 1;
+            star.style.width = `${size}px`;
+            star.style.height = `${size}px`;
+            star.style.left = `${Math.random() * 100}%`;
+            star.style.top = `${Math.random() * 100}%`;
+            const duration = Math.random() * 5 + 3;
+            star.style.animationDuration = `${duration}s`;
+            star.style.animationDelay = `${Math.random() * 5}s`;
+            skyContainer.appendChild(star);
+        }
+        
+        // شهب
+        for (let i = 0; i < 5; i++) {
+            const shootingStar = document.createElement('div');
+            shootingStar.classList.add('shooting-star');
+            const width = Math.random() * 100 + 50;
+            shootingStar.style.width = `${width}px`;
+            const startTop = Math.random() * 40;
+            shootingStar.style.top = `${startTop}%`;
+            shootingStar.style.left = `${Math.random() * 20}%`;
+            const duration = Math.random() * 3 + 2;
+            shootingStar.style.animationDuration = `${duration}s`;
+            shootingStar.style.animationDelay = `${Math.random() * 10}s`;
+            skyContainer.appendChild(shootingStar);
+        }
+    }
+
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+    update();
+    window.addEventListener('load', createStars);
+})();
+</script>
 </body>
 </html>
